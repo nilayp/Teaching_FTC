@@ -3,7 +3,14 @@ public class MyFIRSTJavaOpMode extends LinearOpMode {
     DcMotor backRightDrive;
     DcMotor frontLeftDrive;
     DcMotor frontRightDrive;
-    double forward, maxDrivePower;
+    double forward;
+    double turn;
+    double strafe;
+    double maxDrivePower;
+    double frontLeftPower;
+    double frontRightPower;
+    double backLeftPower;
+    double backRightPower;
 
     @Override
     public void runOpMode() {
@@ -12,31 +19,39 @@ public class MyFIRSTJavaOpMode extends LinearOpMode {
         frontLeftDrive = hardwareMap.get(DcMotor.class, "frontLeftDrive");
         frontRightDrive = hardwareMap.get(DcMotor.class, "frontRightDrive");
 
-        frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
-        backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
+        frontRightDrive.setDirection(DcMotor.Direction.REVERSE);
+        backRightDrive.setDirection(DcMotor.Direction.REVERSE);
         maxDrivePower = 1;
 
         waitForStart();
 
         while (opModeIsActive()) {
-            forward = gamepad1.left_stick_y;
-            backLeftDrive.setPower(forward);
-            backRightDrive.setPower(forward);
-            displayDriveData();
+            forward = -gamepad1.left_stick_y;
+            turn = -gamepad1.right_stick_x;
+            strafe = -gamepad1.left_stick_x;
 
-            /* turn = turn * maxDrivePower;
             forward = forward * maxDrivePower;
+            turn = turn * maxDrivePower;
             strafe = strafe * maxDrivePower;
-            // Combine inputs to create drive and turn (or both!)
-            frontLeftDrive.setPower(forward + turn + strafe);
-            frontRightDrive.setPower(forward - turn - strafe);
-            backLeftDrive.setPower(forward + turn - strafe);
-            backRightDrive.setPower(forward - turn + strafe);
-            */
+
+            frontLeftPower = (forward + turn + strafe);
+            frontRightPower = (forward - turn - strafe);
+            backLeftPower = (forward + turn - strafe);
+            backRightPower = (forward - turn + strafe);
+
+            frontLeftDrive.setPower(frontLeftPower);
+            frontRightDrive.setPower(frontRightPower);
+            backLeftDrive.setPower(backLeftPower);
+            backRightDrive.setPower(backRightPower);
+
+            telemetry.addData("frontLeftDrive", frontLeftPower);
+            telemetry.addData("frontRightDrive", frontRightPower);
+            telemetry.addData("backLeftDrive", backLeftPower);
+            telemetry.addData("backRightDrive", backRightPower);
+            telemetry.addData("forward", forward);
+            telemetry.addData("turn", turn);
+            telemetry.addData("Strafe", strafe);
+            telemetry.update();
         }
-    }
-    public void displayDriveData() {
-        telemetry.addData("Forward", forward);
-        telemetry.update();
     }
 }
