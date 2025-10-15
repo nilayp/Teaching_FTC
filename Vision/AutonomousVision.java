@@ -18,7 +18,7 @@ public class MyFIRSTJavaOpMode extends LinearOpMode {
     double current_range;
 
     VisionPortal.Builder myVisionPortalBuilder;
-    var myAprilTagDetections;
+    List myAprilTagDetections;
     VisionPortal myVisionPortal;
     AprilTagDetection myAprilTagDetection;
     AprilTagProcessor myApriltagProcessor;
@@ -38,17 +38,19 @@ public class MyFIRSTJavaOpMode extends LinearOpMode {
         for (Object myAprilTagDetection2 : myAprilTagDetections) {
           myAprilTagDetection = (AprilTagDetection) myAprilTagDetection2;
           
-          current_x = myAprilTagDetection.ftcPose.x;
-          current_y = myAprilTagDetection.ftcPose.y;
-          current_z = myAprilTagDetection.ftcPose.z;
-          current_yaw = myAprilTagDetection.ftcPose.yaw;
-          current_range = myAprilTagDetection.ftcPose.range;
-          
-          telemetry.addData("ID", (myAprilTagDetection.id));
-          telemetry.addData("X", current_x);
-          telemetry.addData("Y", current_y);
-          telemetry.addData("Z", current_z);
-          telemetry.addData("Range", current_range);
+          if (myAprilTagDetection.id == 20 || myAprilTagDetection.id == 24) {
+              current_x = myAprilTagDetection.ftcPose.x;
+              current_y = myAprilTagDetection.ftcPose.y;
+              current_z = myAprilTagDetection.ftcPose.z;
+              current_yaw = myAprilTagDetection.ftcPose.yaw;
+              current_range = myAprilTagDetection.ftcPose.range;
+              
+              telemetry.addData("ID", (myAprilTagDetection.id));
+              telemetry.addData("X", current_x);
+              telemetry.addData("Y", current_y);
+              telemetry.addData("Z", current_z);
+              telemetry.addData("Range", current_range);
+          }
         }
         telemetry.update();
     }
